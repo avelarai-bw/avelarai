@@ -2,7 +2,7 @@
 # Dependencies
 node_modules/
 */node_modules/
-
+git commit -m "initial commit - AvelarAI new-v1"
 # Environment variables
 .env
 .env.local
