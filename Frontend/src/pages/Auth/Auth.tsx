@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
-//import { useAuth } from '../../hooks/useAuth';
+
 import api from '../../services/api';
 import type { AuthResponse } from '../../types';
 import styles from './Auth.module.css';
