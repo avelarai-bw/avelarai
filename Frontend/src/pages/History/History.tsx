@@ -53,7 +53,7 @@ const History = ({ user, onLogout }: Props) => {
 
   const total = analyses.length;
   const complete = analyses.filter(a => a.status === 'complete').length;
-  const failed = analyses.filter(a => a.status === 'failed').length;
+ // const failed = analyses.filter(a => a.status === 'failed').length;
 
   if (loading) {
     return (

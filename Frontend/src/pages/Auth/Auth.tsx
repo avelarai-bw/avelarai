@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
-import { useAuth } from '../../hooks/useAuth';
+//import { useAuth } from '../../hooks/useAuth';
 import api from '../../services/api';
 import type { AuthResponse } from '../../types';
 import styles from './Auth.module.css';
@@ -40,7 +40,7 @@ const loginPerks = [
 
 const Auth = ({ mode, onLogin }: Props) => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+ // const { login } = useAuth();
 
   const [form, setForm] = useState<FormState>({
     username: '',
