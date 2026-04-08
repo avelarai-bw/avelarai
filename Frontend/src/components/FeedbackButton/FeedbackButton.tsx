@@ -25,11 +25,11 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   if (!form.comment.trim()) return;
 
-  
+  const accessKey = import.meta.env.VITE_WEB3_FORM_KEY;
 
-  if (!import.meta.env.VITE_WEB3_FORM_KEY || import.meta.env.VITE_WEB3_FORM_KEY === 'undefined' || import.meta.env.VITE_WEB3_FORM_KEY.length < 10) {
-    alert('Feedback service is not configured properly. Please contact the developer.');
-    console.error('Missing VITE_WEB3_FORM_KEY in environment variables');
+  if (!accessKey || accessKey === 'undefined') {
+    alert('Feedback is temporarily unavailable. Please contact the developer.');
+    console.error('VITE_WEB3_FORM_KEY is missing in production build');
     return;
   }
 
@@ -40,7 +40,7 @@ const handleSubmit = async (e: React.FormEvent) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        access_key: import.meta.env.VITE_WEB3_FORM_KEY,
+        access_key: accessKey,
         subject: `AvelarAI Feedback — ${rating !== null ? RATINGS[rating] : 'No rating'} from ${form.name || 'Anonymous'}`,
         name: form.name || 'Anonymous',
         email: form.email || 'Not provided',
@@ -52,20 +52,19 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     const result = await response.json();
 
-    if (response.ok && result.success) {
+    if (response.ok) {
       setSubmitted(true);
     } else {
+      alert(result.message || 'Failed to send feedback');
       console.error('Web3Forms error:', result);
-      alert(result.message || 'Failed to send feedback. Please try again.');
     }
   } catch (err) {
-    console.error('Fetch error:', err);
-    alert('Something went wrong. Please check your internet connection and try again.');
+    alert('Network error. Please try again.');
+    console.error(err);
   } finally {
     setLoading(false);
   }
 };
-
   const handleClose = () => {
     setOpen(false);
     setTimeout(() => {
