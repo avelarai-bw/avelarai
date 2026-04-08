@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './FeedbackButton.module.css';
 
 const RATINGS = ['😞', '😕', '😐', '😊', '🤩'];
-let accessKey = import.meta.env.VITE_WEB3_FORM_KEY;
+
 const FeedbackButton = () => {
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState<number | null>(null);
@@ -27,7 +27,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   
 
-  if (!accessKey || accessKey === 'undefined' || accessKey.length < 10) {
+  if (!import.meta.env.VITE_WEB3_FORM_KEY || import.meta.env.VITE_WEB3_FORM_KEY === 'undefined' || import.meta.env.VITE_WEB3_FORM_KEY.length < 10) {
     alert('Feedback service is not configured properly. Please contact the developer.');
     console.error('Missing VITE_WEB3_FORM_KEY in environment variables');
     return;
@@ -40,7 +40,7 @@ const handleSubmit = async (e: React.FormEvent) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        access_key: accessKey,
+        access_key: import.meta.env.VITE_WEB3_FORM_KEY,
         subject: `AvelarAI Feedback — ${rating !== null ? RATINGS[rating] : 'No rating'} from ${form.name || 'Anonymous'}`,
         name: form.name || 'Anonymous',
         email: form.email || 'Not provided',
