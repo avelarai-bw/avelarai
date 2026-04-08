@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './FeedbackButton.module.css';
 
 const RATINGS = ['😞', '😕', '😐', '😊', '🤩'];
-
+let accessKey = import.meta.env.VITE_WEB3_FORM_KEY;
 const FeedbackButton = () => {
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState<number | null>(null);
@@ -25,7 +25,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   if (!form.comment.trim()) return;
 
-  const accessKey = import.meta.env.VITE_WEB3_FORM_KEY;
+  
 
   if (!accessKey || accessKey === 'undefined' || accessKey.length < 10) {
     alert('Feedback service is not configured properly. Please contact the developer.');
