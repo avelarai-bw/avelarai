@@ -6,6 +6,7 @@ import Upload from './pages/Upload/Upload';
 import Dashboard from './pages/Dashboard/Dashboard';
 import History from './pages/History/History';
 import type { User } from './types';
+import FeedbackButton from './components/FeedbackButton/FeedbackButton';
 
 function App() {
   const [token, setToken] = useState<string | null>(() =>
@@ -33,6 +34,7 @@ function App() {
   };
 
   return (
+    <>
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route
@@ -75,7 +77,11 @@ function App() {
             : <Navigate to="/login" replace />
         }
       />
+     
     </Routes>
+     <FeedbackButton />
+    </>
+    
   );
 }
 

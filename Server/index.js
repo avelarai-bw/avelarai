@@ -15,7 +15,14 @@ dotenv.config();
 const app = express();
 const httpServer = http.createServer(app);
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://avelarai.vercel.app',
+    'https://avelarai-git-main-avelarai269-4786s-projects.vercel.app'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // Serve uploaded files statically (temp storage)
