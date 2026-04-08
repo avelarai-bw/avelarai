@@ -40,7 +40,7 @@ const loginPerks = [
 
 const Auth = ({ mode, onLogin }: Props) => {
   const navigate = useNavigate();
-  
+ // 
 
   const [form, setForm] = useState<FormState>({
     username: '',
