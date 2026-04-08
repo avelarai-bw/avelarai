@@ -21,35 +21,50 @@ const FeedbackButton = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.comment.trim()) return;
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!form.comment.trim()) return;
 
-    setLoading(true);
+  const accessKey = import.meta.env.VITE_WEB3_FORM_KEY;
 
-    try {
-      await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          access_key: import.meta.env.VITE_WEB3_FORM_KEY,
-          subject: `AvelarAI Feedback — ${rating !== null ? RATINGS[rating] : 'No rating'} from ${form.name || 'Anonymous'}`,
-          name: form.name || 'Anonymous',
-          email: form.email || 'Not provided',
-          rating: rating !== null ? `${RATINGS[rating]} (${rating + 1}/5)` : 'Not rated',
-          comment: form.comment,
-          from_name: 'AvelarAI Feedback',
-        }),
-      });
+  if (!accessKey || accessKey === 'undefined' || accessKey.length < 10) {
+    alert('Feedback service is not configured properly. Please contact the developer.');
+    console.error('Missing VITE_WEB3_FORM_KEY in environment variables');
+    return;
+  }
 
+  setLoading(true);
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: accessKey,
+        subject: `AvelarAI Feedback — ${rating !== null ? RATINGS[rating] : 'No rating'} from ${form.name || 'Anonymous'}`,
+        name: form.name || 'Anonymous',
+        email: form.email || 'Not provided',
+        rating: rating !== null ? `${RATINGS[rating]} (${rating + 1}/5)` : 'Not rated',
+        comment: form.comment,
+        from_name: 'AvelarAI Feedback',
+      }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok && result.success) {
       setSubmitted(true);
-      console.log(import.meta.env.VITE_WEB3_FORM_KEY)
-    } catch {
-      alert('Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
+    } else {
+      console.error('Web3Forms error:', result);
+      alert(result.message || 'Failed to send feedback. Please try again.');
     }
-  };
+  } catch (err) {
+    console.error('Fetch error:', err);
+    alert('Something went wrong. Please check your internet connection and try again.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleClose = () => {
     setOpen(false);
