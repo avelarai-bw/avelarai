@@ -104,7 +104,7 @@ const Auth = ({ mode, onLogin }: Props) => {
     setResendMessage('');
 
     try {
-      const endpoint = isLogin ? '/login' : '/register';
+      const endpoint = isLogin ? '/auth/login' : '/auth/register';
       const payload = isLogin
         ? { email: form.email, password: form.password }
         : { username: form.username, email: form.email, password: form.password };
@@ -137,7 +137,7 @@ const Auth = ({ mode, onLogin }: Props) => {
     setResendLoading(true);
     setResendMessage('');
     try {
-      const { data } = await api.post('/resend-verification', { email: form.email });
+      const { data } = await api.post('/auth/resend-verification', { email: form.email });
       setResendMessage(data.message);
     } catch (err: any) {
       setResendMessage(err.response?.data?.message || 'Failed to resend. Try again.');
