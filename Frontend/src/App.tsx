@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Landing from './pages/Landing/Landing';
 import Auth from './pages/Auth/Auth';
 import Upload from './pages/Upload/Upload';
+import VerifyEmail from './pages/Verify/VerifyEmail';
 import Dashboard from './pages/Dashboard/Dashboard';
 import History from './pages/History/History';
 import type { User } from './types';
@@ -37,6 +38,7 @@ function App() {
     <>
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
       <Route
         path="/login"
         element={
